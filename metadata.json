@@ -1,0 +1,6 @@
+{
+  "name": "Remix: SiteLens AI",
+  "description": "Professional site inspection photo management with AI enhancement and Google Drive integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["AI Image Enhancement", "Google Drive Integration", "Technical Inspection Analytics"]
+}
