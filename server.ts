@@ -25,11 +25,17 @@ async function startServer() {
     next();
   });
 
+  // Helper to get clean redirect URI
+  const getRedirectUri = () => {
+    const baseUrl = process.env.APP_URL ? process.env.APP_URL.replace(/\/$/, '') : '';
+    return `${baseUrl}/auth/callback`;
+  };
+
   // Google OAuth Client Setup
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    `${process.env.APP_URL}/auth/callback`
+    getRedirectUri()
   );
 
   app.use(express.json({ limit: '50mb' }));
@@ -57,15 +63,26 @@ async function startServer() {
   apiRouter.get('/auth/url', (req, res) => {
     try {
       console.log('Generating auth URL...');
+      
+      if (!process.env.GOOGLE_CLIENT_ID) {
+        throw new Error('GOOGLE_CLIENT_ID is not configured in the Secrets panel.');
+      }
+
+      const redirectUri = getRedirectUri();
+      console.log('Using redirect URI:', redirectUri);
+
       const scopes = [
         'https://www.googleapis.com/auth/drive.readonly',
         'https://www.googleapis.com/auth/drive.file'
       ];
+      
       const url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: scopes,
-        prompt: 'consent'
+        prompt: 'consent',
+        redirect_uri: redirectUri
       });
+      
       res.json({ url });
     } catch (error: any) {
       console.error('Failed to generate auth URL:', error);

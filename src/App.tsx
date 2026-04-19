@@ -40,6 +40,7 @@ interface EnhancedPhoto {
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isConfigured, setIsConfigured] = useState<boolean>(true);
   const [currentFolderId, setCurrentFolderId] = useState<string>('root');
   const [folderPath, setFolderPath] = useState<{id: string, name: string}[]>([{id: 'root', name: 'My Drive'}]);
   const [files, setFiles] = useState<DriveFile[]>([]);
@@ -69,6 +70,13 @@ export default function App() {
 
   const checkAuth = async () => {
     try {
+      // Check if secrets are configured
+      const healthRes = await fetch('/api/health');
+      if (healthRes.ok) {
+        const healthData = await healthRes.json();
+        setIsConfigured(!!healthData.env.GOOGLE_CLIENT_ID);
+      }
+
       const res = await fetch('/api/auth/status');
       const data = await res.json();
       setIsAuthenticated(data.authenticated);
@@ -279,20 +287,32 @@ export default function App() {
                 AI Powered Inspection
               </div>
               <h1 className="text-6xl md:text-8xl font-semibold tracking-tight text-gray-900 leading-[0.85]">
-                SiteLens <br />
-                <span className="text-gray-400">AI.</span>
+                Proparidge <br />
+                <span className="text-gray-400 text-5xl md:text-7xl">SiteLens AI.</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-500 font-medium max-w-sm leading-relaxed">
-                Professional site inspection photo management with automated enhancement and archival.
+                Tailored site inspection photo management for <b>Proparidge Prop</b> archival and enhancement.
               </p>
             </div>
 
             <div className="space-y-4">
+              {!isConfigured && (
+                <div className="p-6 bg-red-50 border border-red-100 rounded-2xl space-y-3">
+                   <div className="flex items-center gap-2 text-red-700 font-bold text-xs uppercase tracking-widest">
+                     <XCircle size={14} />
+                     Configuration Required
+                   </div>
+                   <p className="text-xs text-red-600 leading-relaxed">
+                     Please set <code className="bg-red-100 px-1 rounded font-bold">GOOGLE_CLIENT_ID</code> and <code className="bg-red-100 px-1 rounded font-bold">GOOGLE_CLIENT_SECRET</code> in the <b>Secrets</b> panel (bottom left) to enable Google Drive integration.
+                   </p>
+                </div>
+              )}
               <button 
                 onClick={handleConnect}
-                className="group relative flex items-center justify-center gap-3 bg-gray-900 text-white px-8 py-5 rounded-2xl font-semibold transition-all hover:bg-black active:scale-95 shadow-[0_20px_40px_rgba(0,0,0,0.1)] w-full md:w-auto overflow-hidden"
+                disabled={!isConfigured}
+                className={`group relative flex items-center justify-center gap-3 px-8 py-5 rounded-2xl font-semibold transition-all shadow-[0_20px_40px_rgba(0,0,0,0.1)] w-full md:w-auto overflow-hidden ${!isConfigured ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-900 text-white hover:bg-black active:scale-95'}`}
               >
-                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                {isConfigured && <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />}
                 <ExternalLink size={20} className="relative z-10" />
                 <span className="relative z-10 text-lg">Connect Google Drive</span>
               </button>
@@ -357,8 +377,8 @@ export default function App() {
             <Sparkles className="text-white w-6 h-6" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold tracking-tight text-lg leading-tight">SiteLens AI</span>
-            <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Inspection Engine</span>
+            <span className="font-bold tracking-tight text-lg leading-tight text-gray-900">Proparidge SiteLens</span>
+            <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Project ID: studio-6084005125-75144</span>
           </div>
         </div>
 

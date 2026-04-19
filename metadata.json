@@ -1,6 +1,6 @@
 {
-  "name": "Remix: SiteLens AI",
-  "description": "Professional site inspection photo management with AI enhancement and Google Drive integration.",
+  "name": "Proparidge SiteLens",
+  "description": "Custom site inspection photo management for Proparidge Prop. Integrated with Google Drive (Project: studio-6084005125-75144).",
   "requestFramePermissions": [],
   "majorCapabilities": ["AI Image Enhancement", "Google Drive Integration", "Technical Inspection Analytics"]
 }
