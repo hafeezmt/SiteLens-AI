@@ -38,3 +38,9 @@ For local development, create a .env.local file and configure the required envir
 - `src/` contains the application source code
 - `server.ts` runs the local development server
 - `README.md` contains setup and development instructions
+
+## Development Workflow
+
+1. Install dependencies with `npm.cmd install` on Windows
+2. Configure the required environment variables
+3. Start the development server with `npm.cmd run dev`
