@@ -22,3 +22,9 @@ View your app in AI Studio: https://ai.studio/apps/82a64ab0-2118-4f87-9ce6-2ce8c
 ## Local Development
 
 Use `npm install` to install dependencies and `npm run dev` to start the development server locally.
+
+## Troubleshooting
+
+If PowerShell blocks npm scripts, use `npm.cmd` instead of `npm` on Windows.
+
+Example: `npm.cmd install` and `npm.cmd run dev`.
