@@ -28,3 +28,7 @@ Use `npm install` to install dependencies and `npm run dev` to start the develop
 If PowerShell blocks npm scripts, use `npm.cmd` instead of `npm` on Windows.
 
 Example: `npm.cmd install` and `npm.cmd run dev`.
+
+## Environment Variables
+
+For local development, create a .env.local file and configure the required environment variables before starting the app.
