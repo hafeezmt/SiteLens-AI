@@ -32,3 +32,9 @@ Example: `npm.cmd install` and `npm.cmd run dev`.
 ## Environment Variables
 
 For local development, create a .env.local file and configure the required environment variables before starting the app.
+
+## Project Structure
+
+- `src/` contains the application source code
+- `server.ts` runs the local development server
+- `README.md` contains setup and development instructions
